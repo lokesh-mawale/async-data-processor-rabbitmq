@@ -96,7 +96,7 @@ http://localhost:8080/h2-console
 mvn test
 ```
 
-### **9. Contributing
+### **9. Contributing**
 
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements.
 
