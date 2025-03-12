@@ -16,5 +16,5 @@ public interface TaskService {
 
   public void processTask(UUID taskId);
 
-    List<Task> getAllTasks();
+  List<Task> getAllTasks();
 }

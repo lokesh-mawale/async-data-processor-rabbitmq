@@ -1,111 +1,83 @@
-# Async Data Processor
+# **Async Task Processor (Spring Boot + RabbitMQ + H2)**
 
-## Overview
+## **Overview**
+This is a Spring Boot backend application that handles asynchronous task processing using RabbitMQ. Tasks can be submitted via a REST API and are processed asynchronously, with their status being updated in an H2 database.
 
-**Async Data Processor** is a Java-based application designed to handle asynchronous data processing tasks efficiently. Leveraging the power of RabbitMQ for message brokering and Spring Boot for application configuration, this project demonstrates how to implement robust asynchronous processing in a microservices architecture.
+## **Features**
+- **Task Submission**: Submit a new task with a name and payload.
+- **Task Status Tracking**: Retrieve the status of any task.
+- **Asynchronous Processing**: Tasks are queued and processed asynchronously using RabbitMQ.
+- **Data Persistence**: Task metadata is stored in an H2 database.
+- **Error Handling**: Graceful handling of failed tasks.
 
-## Features
+## **Tech Stack**
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA
+- H2 Database
+- RabbitMQ
+- Lombok (to reduce boilerplate code)
 
-- **Asynchronous Task Handling**: Processes tasks asynchronously to ensure non-blocking operations and improved performance.
-- **RabbitMQ Integration**: Utilizes RabbitMQ for reliable message queuing and delivery.
-- **Spring Boot Framework**: Employs Spring Boot for simplified configuration and rapid development.
-- **Dynamic Configuration**: Reads RabbitMQ settings from `application.yml` for flexible and environment-specific configurations.
+## **Setup Instructions**
 
-## Prerequisites
+### **1. Prerequisites**
+Ensure you have the following installed:
+- Java 17+
+- Maven
+- RabbitMQ (Installed and Running)
 
-- **Java Development Kit (JDK)**: Ensure JDK 17 or higher is installed.
-- **RabbitMQ Server**: A running instance of RabbitMQ is required. [Installation Guide](https://www.rabbitmq.com/download.html)
-- **Maven**: For building and managing project dependencies.
-
-## Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/lokesh-mawale/async-data-processor.git
-cd async-data-processor
+### **2. Clone the Repository**
+```sh
+git clone https://github.com/your-repo/async-task-processor.git
+cd async-task-processor
 ```
 
-### 2. Configure RabbitMQ Settings
+### **3. Start RabbitMQ**
+Make sure RabbitMQ is installed and running on your machine.  
+If RabbitMQ is running locally, it should be available at:
+- **Broker URL**: `amqp://localhost:5672`
+- **Management UI**: `http://localhost:15672` (User: `guest`, Password: `guest`)
 
-Modify the `src/main/resources/application.yml` file to set your RabbitMQ configurations:
-
-```yaml
-rabbitmq:
-  exchange: your_exchange_name
-  queue: your_queue_name
-  routing-key: your_routing_key
- 
-```
-
-### 3. Build the Project
-
-Use Maven to build the project:
-
-```bash
+### **4. Build and Run the Application**
+```sh
 mvn clean install
+mvn spring-boot:run
 ```
 
-### 4. Run the Application
+### **5. API Endpoints**
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/tasks?name={name}&payload={payload}` | Submit a new task |
+| `GET` | `/tasks` | Retrieve all tasks |
+| `GET` | `/tasks/{id}` | Get task status by ID |
 
-Execute the application using:
-
-```bash
-java -jar target/async-data-processor-0.0.1-SNAPSHOT.jar
+#### **Example Task Submission (Query Parameters)**
+```sh
+curl -X POST "http://localhost:8080/tasks?name=Task1&payload=SampleData"
 ```
 
-## Project Structure
-
-```plaintext
-async-data-processor/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── example/
-│   │   │           └── asyncdataprocessor/
-│   │   │               ├── AsyncDataProcessorApplication.java
-│   │   │               ├── config/
-│   │   │               │   └── RabbitMQConfig.java
-│   │   │               ├── listener/
-│   │   │               │   └── TaskListener.java
-│   │   │               └── sender/
-│   │   │                   └── TaskSender.java
-│   │   └── resources/
-│   │       ├── application.yml
-├── .gitignore
-├── mvnw
-├── mvnw.cmd
-└── pom.xml
+#### **Example Task Status Check**
+```sh
+curl -X GET "http://localhost:8080/tasks/1"
 ```
 
-- **AsyncDataProcessorApplication.java**: The main entry point of the Spring Boot application.
-- **RabbitMQConfig.java**: Configures RabbitMQ components like queues, exchanges, and bindings.
-- **TaskListener.java**: Listens for incoming messages from RabbitMQ and processes them.
-- **TaskSender.java**: Sends messages to RabbitMQ for processing.
-- **application.yml**: Contains application-specific configurations, including RabbitMQ settings.
+### **6. H2 Database Console**
+H2 Database Console is available at:
+```
+http://localhost:8080/h2-console
+```
+- JDBC URL: `jdbc:h2:mem:testdb`
+- Username: `sa`
+- Password: *(leave blank)*
 
-## Usage
+### **7. Running Tests**
+```sh
+mvn test
+```
 
-1. **Sending Tasks**: Utilize the `TaskSender` class to send messages to the configured RabbitMQ exchange.
-2. **Processing Tasks**: Implement the `TaskListener` class to define the logic for processing incoming messages.
-
-## Logging
-
-The application uses Logback for logging. Configure logging settings in the `src/main/resources/logback-spring.xml` file.
-
-## Contributing
+### **8. Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For questions or suggestions, please open an issue in this repository.
-
----
-
-*Note: Ensure RabbitMQ is running and accessible based on the configurations provided in `application.yml` before starting the application.* 
+### **9. License**
+This project is licensed under the MIT License.

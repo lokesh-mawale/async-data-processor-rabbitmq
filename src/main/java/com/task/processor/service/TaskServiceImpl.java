@@ -55,6 +55,9 @@ public class TaskServiceImpl implements TaskService {
         .ifPresent(
             task -> {
               try {
+                if (Math.random() < 0.2) { // Simulate a 20% failure rate
+                  throw new RuntimeException("Task processing failed due to an error.");
+                }
                 task.setStatus(TaskStatus.PROCESSING);
                 taskRepository.save(task);
                 Thread.sleep(5000);
@@ -69,6 +72,6 @@ public class TaskServiceImpl implements TaskService {
 
   @Override
   public List<Task> getAllTasks() {
-    return List.of();
+    return taskRepository.findAll();
   }
 }
