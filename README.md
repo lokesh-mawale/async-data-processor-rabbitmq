@@ -25,6 +25,7 @@ Ensure you have the following installed:
 - Java 17+
 - Maven
 - RabbitMQ (Installed and Running)
+- IntelliJ IDEA (optional but recommended)
 
 ### **2. Clone the Repository**
 ```sh
@@ -32,19 +33,39 @@ git clone https://github.com/your-repo/async-task-processor.git
 cd async-task-processor
 ```
 
-### **3. Start RabbitMQ**
+### **3. Install Lombok and Enable It in IntelliJ**
+Lombok is used to reduce boilerplate code for getters, setters, and constructors.
+
+#### **Add Lombok to `pom.xml` (if not already included)**
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <scope>provided</scope>
+</dependency>
+```
+
+#### **Enable Lombok in IntelliJ IDEA**
+1. Open **IntelliJ IDEA** and go to **File > Settings** (or **Preferences** on macOS).
+2. Navigate to **Plugins**, search for **Lombok**, and install the plugin.
+3. Restart IntelliJ IDEA.
+4. Enable annotation processing:
+    - Go to **File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors**.
+    - Check **Enable annotation processing**.
+
+### **4. Start RabbitMQ**
 Make sure RabbitMQ is installed and running on your machine.  
 If RabbitMQ is running locally, it should be available at:
 - **Broker URL**: `amqp://localhost:5672`
 - **Management UI**: `http://localhost:15672` (User: `guest`, Password: `guest`)
 
-### **4. Build and Run the Application**
+### **5. Build and Run the Application**
 ```sh
 mvn clean install
 mvn spring-boot:run
 ```
 
-### **5. API Endpoints**
+### **6. API Endpoints**
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/tasks?name={name}&payload={payload}` | Submit a new task |
@@ -61,7 +82,7 @@ curl -X POST "http://localhost:8080/tasks?name=Task1&payload=SampleData"
 curl -X GET "http://localhost:8080/tasks/1"
 ```
 
-### **6. H2 Database Console**
+### **7. H2 Database Console**
 H2 Database Console is available at:
 ```
 http://localhost:8080/h2-console
@@ -70,14 +91,14 @@ http://localhost:8080/h2-console
 - Username: `sa`
 - Password: *(leave blank)*
 
-### **7. Running Tests**
+### **8. Running Tests**
 ```sh
 mvn test
 ```
 
-### **8. Contributing
+### **9. Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements.
 
-### **9. License**
+### **10. License**
 This project is licensed under the MIT License.
