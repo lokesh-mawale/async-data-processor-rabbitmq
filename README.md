@@ -33,10 +33,11 @@ git clone https://github.com/your-repo/async-task-processor.git
 cd async-task-processor
 ```
 
-### **3. Install Lombok and Enable It in IntelliJ**
-Lombok is used to reduce boilerplate code for getters, setters, and constructors.
+### **3. Install and Configure Lombok**
+Lombok is used to reduce boilerplate code by automatically generating getters, setters, constructors, and more.
 
-#### **Add Lombok to `pom.xml` (if not already included)**
+#### **Step 1: Add Lombok Dependency in `pom.xml`**
+If Lombok is not already included, add the following dependency in your `pom.xml` file:
 ```xml
 <dependency>
     <groupId>org.projectlombok</groupId>
@@ -45,13 +46,18 @@ Lombok is used to reduce boilerplate code for getters, setters, and constructors
 </dependency>
 ```
 
-#### **Enable Lombok in IntelliJ IDEA**
-1. Open **IntelliJ IDEA** and go to **File > Settings** (or **Preferences** on macOS).
-2. Navigate to **Plugins**, search for **Lombok**, and install the plugin.
-3. Restart IntelliJ IDEA.
-4. Enable annotation processing:
-    - Go to **File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors**.
-    - Check **Enable annotation processing**.
+#### **Step 2: Enable Lombok in IntelliJ IDEA**
+1. Open **IntelliJ IDEA**.
+2. Navigate to **File > Settings** (or **Preferences** on macOS).
+3. Go to **Plugins**, search for **Lombok**, and install it.
+4. Restart IntelliJ IDEA.
+
+#### **Step 3: Enable Annotation Processing**
+1. Open **IntelliJ IDEA**.
+2. Go to **File > Settings > Build, Execution, Deployment > Compiler > Annotation Processors**.
+3. Check the box **Enable annotation processing**.
+4. Click **Apply** and **OK**.
+
 
 ### **4. Start RabbitMQ**
 Make sure RabbitMQ is installed and running on your machine.  
