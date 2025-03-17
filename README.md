@@ -77,6 +77,7 @@ mvn spring-boot:run
 | `POST` | `/tasks?name={name}&payload={payload}` | Submit a new task |
 | `GET` | `/tasks` | Retrieve all tasks |
 | `GET` | `/tasks/{id}` | Get task status by ID |
+| `GET` | `/api/tasks/stats` | Get Statistics |
 
 #### **Example Task Submission (Query Parameters)**
 ```sh
@@ -86,6 +87,11 @@ curl -X POST "http://localhost:8080/tasks?name=Task1&payload=SampleData"
 #### **Example Task Status Check**
 ```sh
 curl -X GET "http://localhost:8080/tasks/1"
+```
+
+#### **Example To Check Statistics*
+```sh
+curl -X GET "http://localhost:8080/api/tasks/stats"
 ```
 
 ### **7. H2 Database Console**
@@ -101,6 +107,92 @@ http://localhost:8080/h2-console
 ```sh
 mvn test
 ```
+### **8. Dockerizing the Application**
+1. Create a Dockerfile
+Create a Dockerfile in the root directory of the project
+```dockerfile
+# Use a base Java 17 image
+FROM openjdk:17-jdk-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy the JAR file
+COPY target/*.jar app.jar
+
+# Expose port 8080
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+2. Build the Docker Image
+Run the following command to build the image:
+
+```sh
+
+mvn clean package -DskipTests
+docker build -t async-data-processing .
+```
+
+3. Run the Application in Docker
+
+- Start RabbitMQ (if not already running):
+	
+```sh
+	docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
+```
+- Run the Spring Boot application container:
+```sh
+	docker run -d -p 8080:8080 --name async-data-processing --link rabbitmq async-data-processing
+```
+	
+-  Docker Compose to run containers separately
+  - - Create a docker-compose.yml file:
+        
+            version: '3.8'
+            
+            services:
+              rabbitmq:
+                image: rabbitmq:management
+                container_name: rabbitmq
+                ports:
+                  - "5672:5672"
+                  - "15672:15672"
+            
+              async-data-processing:
+                build: .
+                container_name: async-data-processing
+                ports:
+                  - "8080:8080"
+                depends_on:
+                  - rabbitmq
+             
+  - -  Run the application using:
+    ```sh
+        docker-compose up -d
+    ```
+  - -  To stop the containers:
+    ```sh
+         docker-compose down
+     ```
+  
+4. Verify the Setup
+  
+          Access the application at: http://localhost:8080
+          
+          Access RabbitMQ Management UI: http://localhost:15672/
+
+5. Check logs:
+       
+        docker logs -f async-data-processing
+
+6. Stopping and Removing Containers
+
+    ```sh
+    docker stop async-data-processing rabbitmq docker rm async-data-processing rabbitmq
+    ```
 
 ### **9. Contributing**
 
