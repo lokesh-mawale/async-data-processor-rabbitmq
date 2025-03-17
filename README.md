@@ -107,7 +107,7 @@ http://localhost:8080/h2-console
 ```sh
 mvn test
 ```
-### **8. Dockerizing the Application**
+### **9. Dockerizing the Application**
 1. Create a Dockerfile
 Create a Dockerfile in the root directory of the project
 ```dockerfile
@@ -194,9 +194,9 @@ docker build -t async-data-processing .
     docker stop async-data-processing rabbitmq docker rm async-data-processing rabbitmq
     ```
 
-### **9. Contributing**
+### **10. Contributing**
 
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements.
 
-### **10. License**
+### **11. License**
 This project is licensed under the MIT License.
