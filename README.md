@@ -135,8 +135,14 @@ Run the following command to build the image:
 mvn clean package -DskipTests
 docker build -t async-data-processing .
 ```
+3. Pushing Image to Docker Hub
+```sh
+docker tag async-data-processing lokeshmawale/async-data-processing-app:latest
+docker build -t lokeshmawale/async-data-processing:latest .
+docker push lokeshmawale/async-data-processing-app:latest
+```
 
-3. Run the Application in Docker
+4. Run the Application in Docker
 
 - Start RabbitMQ (if not already running):
 	
@@ -150,7 +156,7 @@ docker build -t async-data-processing .
 	
 -  Docker Compose to run containers separately
   - - Create a docker-compose.yml file:
-        
+        ```yaml
             version: '3.8'
             
             services:
@@ -168,10 +174,12 @@ docker build -t async-data-processing .
                   - "8080:8080"
                 depends_on:
                   - rabbitmq
-             
-  - -  Run the application using:
+       ```      
+  - -  Run the application using(Step 1& 2 Only if running on remote machine):
     ```sh
-        docker-compose up -d
+    	1. docker login
+    	2. docker pull lokeshmawale/async-data-processing-app:latest
+    	3. docker-compose up -d --pull always
     ```
   - -  To stop the containers:
     ```sh
